@@ -48,11 +48,9 @@ const Calculator = () => {
     let totalInvestment = inputs.monthlyAmount * months;
     let futureValue = 0;
 
-    // Calculate monthly compounding
     for (let i = 1; i <= months; i++) {
       futureValue = (futureValue + inputs.monthlyAmount) * (1 + monthlyRate);
       
-      // Store yearly data for the chart
       if (i % 12 === 0) {
         const year = i / 12;
         const investment = inputs.monthlyAmount * i;
@@ -67,11 +65,9 @@ const Calculator = () => {
       }
     }
 
-    // Calculate inflation-adjusted value
     const inflationFactor = Math.pow(1 + inputs.inflationRate / 100, -inputs.duration);
     const inflationAdjustedValue = futureValue * inflationFactor;
 
-    // Calculate tax on gains
     const gains = futureValue - totalInvestment;
     const taxAmount = (gains * inputs.taxRate) / 100;
     const postTaxValue = futureValue - taxAmount;
@@ -96,87 +92,121 @@ const Calculator = () => {
     }));
   };
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">SIP Calculator</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Investment Details</h2>
-          
-          <div className="space-y-4">
-            <Input
-              label="Monthly Investment (₹)"
-              value={inputs.monthlyAmount}
-              onChange={(value) => handleInputChange('monthlyAmount', value)}
-              min={500}
-              max={1000000}
-            />
-            
-            <Input
-              label="Investment Duration (Years)"
-              value={inputs.duration}
-              onChange={(value) => handleInputChange('duration', value)}
-              min={1}
-              max={40}
-            />
-            
-            <Input
-              label="Expected Return Rate (%)"
-              value={inputs.returnRate}
-              onChange={(value) => handleInputChange('returnRate', value)}
-              min={1}
-              max={30}
-            />
-            
-            <Input
-              label="Inflation Rate (%)"
-              value={inputs.inflationRate}
-              onChange={(value) => handleInputChange('inflationRate', value)}
-              min={0}
-              max={20}
-            />
-            
-            <Input
-              label="Tax Rate (%)"
-              value={inputs.taxRate}
-              onChange={(value) => handleInputChange('taxRate', value)}
-              min={0}
-              max={40}
-            />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Results</h2>
-          
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Total Investment:</span>
-              <span className="font-semibold">₹{results.totalInvestment.toLocaleString()}</span>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Expected Returns:</span>
-              <span className="font-semibold">₹{results.totalReturns.toLocaleString()}</span>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Inflation Adjusted Returns:</span>
-              <span className="font-semibold">₹{results.inflationAdjustedReturns.toLocaleString()}</span>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Post-tax Returns:</span>
-              <span className="font-semibold">₹{results.postTaxReturns.toLocaleString()}</span>
-            </div>
-          </div>
-        </div>
+  const ResultCard = ({ title, value, subtitle, color }: { title: string; value: number; subtitle?: string; color: string }) => (
+    <div className="bg-white rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105">
+      <h3 className="text-gray-600 text-sm font-medium mb-2">{title}</h3>
+      <div className={`text-2xl font-bold mb-1 ${color}`}>
+        ₹{value.toLocaleString('en-IN')}
       </div>
+      {subtitle && <p className="text-gray-500 text-xs">{subtitle}</p>}
+    </div>
+  );
 
-      <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Growth Projection</h2>
-        <Chart data={results.yearlyData} />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            SIP Calculator
+          </h1>
+          <p className="text-lg text-gray-600">
+            Plan your investment journey with our advanced SIP calculator
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Input Section */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                Investment Details
+              </h2>
+              
+              <Input
+                label="Monthly Investment"
+                value={inputs.monthlyAmount}
+                onChange={(value) => handleInputChange('monthlyAmount', value)}
+                min={500}
+                max={1000000}
+                prefix="₹"
+              />
+              
+              <Input
+                label="Investment Duration"
+                value={inputs.duration}
+                onChange={(value) => handleInputChange('duration', value)}
+                min={1}
+                max={40}
+                suffix="Years"
+              />
+              
+              <Input
+                label="Expected Return Rate"
+                value={inputs.returnRate}
+                onChange={(value) => handleInputChange('returnRate', value)}
+                min={1}
+                max={30}
+                suffix="%"
+              />
+              
+              <Input
+                label="Inflation Rate"
+                value={inputs.inflationRate}
+                onChange={(value) => handleInputChange('inflationRate', value)}
+                min={0}
+                max={20}
+                suffix="%"
+              />
+              
+              <Input
+                label="Tax Rate"
+                value={inputs.taxRate}
+                onChange={(value) => handleInputChange('taxRate', value)}
+                min={0}
+                max={40}
+                suffix="%"
+              />
+            </div>
+          </div>
+
+          {/* Results Section */}
+          <div className="lg:col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <ResultCard
+                title="Total Investment"
+                value={results.totalInvestment}
+                subtitle="Amount you invested"
+                color="text-blue-600"
+              />
+              <ResultCard
+                title="Expected Returns"
+                value={results.totalReturns}
+                subtitle="Before tax and inflation"
+                color="text-green-600"
+              />
+              <ResultCard
+                title="Inflation Adjusted Returns"
+                value={results.inflationAdjustedReturns}
+                subtitle="Real value of money"
+                color="text-yellow-600"
+              />
+              <ResultCard
+                title="Post-tax Returns"
+                value={results.postTaxReturns}
+                subtitle="Final amount you'll get"
+                color="text-purple-600"
+              />
+            </div>
+
+            {/* Chart Section */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                Growth Projection
+              </h2>
+              <Chart data={results.yearlyData} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
