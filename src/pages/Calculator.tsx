@@ -96,7 +96,7 @@ const Calculator = () => {
     <div className="bg-white rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:scale-105">
       <h3 className="text-gray-600 text-sm font-medium mb-2">{title}</h3>
       <div className={`text-2xl font-bold mb-1 ${color}`}>
-        ₹{value.toLocaleString('en-IN')}
+        ₹{Math.round(value).toLocaleString('en-IN')}
       </div>
       {subtitle && <p className="text-gray-500 text-xs">{subtitle}</p>}
     </div>
@@ -129,6 +129,7 @@ const Calculator = () => {
                 min={500}
                 max={1000000}
                 prefix="₹"
+                showCommas={true}
               />
               
               <Input

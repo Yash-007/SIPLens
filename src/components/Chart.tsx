@@ -29,21 +29,21 @@ const Chart = ({ data }: ChartProps) => {
     datasets: [
       {
         label: 'Total Investment',
-        data: data.map(d => d.investment),
+        data: data.map(d => Math.round(d.investment)),
         borderColor: 'rgb(99, 102, 241)',
         backgroundColor: 'rgba(99, 102, 241, 0.5)',
         tension: 0.1
       },
       {
         label: 'Expected Value',
-        data: data.map(d => d.totalValue),
+        data: data.map(d => Math.round(d.totalValue)),
         borderColor: 'rgb(34, 197, 94)',
         backgroundColor: 'rgba(34, 197, 94, 0.5)',
         tension: 0.1
       },
       {
         label: 'Inflation Adjusted Value',
-        data: data.map(d => d.inflationAdjustedValue),
+        data: data.map(d => Math.round(d.inflationAdjustedValue)),
         borderColor: 'rgb(234, 179, 8)',
         backgroundColor: 'rgba(234, 179, 8, 0.5)',
         tension: 0.1

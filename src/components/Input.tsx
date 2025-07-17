@@ -6,14 +6,39 @@ interface InputProps {
   max: number;
   prefix?: string;
   suffix?: string;
+  showCommas?: boolean;
 }
 
-const Input = ({ label, value, onChange, min, max, prefix, suffix }: InputProps) => {
+const Input = ({ label, value, onChange, min, max, prefix, suffix, showCommas = false }: InputProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value);
-    if (newValue >= min && newValue <= max) {
-      onChange(newValue);
+    // Remove commas and any non-numeric characters
+    const numericValue = e.target.value.replace(/,/g, '').replace(/[^0-9]/g, '');
+    
+    // If empty or just backspaced to empty, set to minimum value
+    if (!numericValue) {
+      onChange(min);
+      return;
     }
+
+    const newValue = Math.round(Number(numericValue));
+    
+    // Only update if it's a valid number within range
+    if (!isNaN(newValue)) {
+      if (newValue > max) {
+        onChange(max);
+      } else if (newValue < min) {
+        onChange(min);
+      } else {
+        onChange(newValue);
+      }
+    }
+  };
+
+  const formatValue = (val: number) => {
+    if (showCommas) {
+      return Math.round(val).toLocaleString('en-IN');
+    }
+    return Math.round(val);
   };
 
   const percentage = ((value - min) / (max - min)) * 100;
@@ -27,12 +52,10 @@ const Input = ({ label, value, onChange, min, max, prefix, suffix }: InputProps)
         <div className="flex items-center space-x-1">
           {prefix && <span className="text-gray-500">{prefix}</span>}
           <input
-            type="number"
-            value={value}
+            type={showCommas ? "text" : "number"}
+            value={formatValue(value)}
             onChange={handleInputChange}
-            min={min}
-            max={max}
-            className="w-20 px-2 py-1 text-right text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-24 px-2 py-1 text-right text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
           {suffix && <span className="text-gray-500">{suffix}</span>}
         </div>
@@ -73,8 +96,8 @@ const Input = ({ label, value, onChange, min, max, prefix, suffix }: InputProps)
       </div>
 
       <div className="flex justify-between text-xs text-gray-500">
-        <span>{min.toLocaleString()}{suffix}</span>
-        <span>{max.toLocaleString()}{suffix}</span>
+        <span>{showCommas ? Math.round(min).toLocaleString('en-IN') : Math.round(min)}{suffix}</span>
+        <span>{showCommas ? Math.round(max).toLocaleString('en-IN') : Math.round(max)}{suffix}</span>
       </div>
     </div>
   );
