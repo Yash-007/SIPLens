@@ -12,6 +12,19 @@
 
   body {
     @apply bg-gray-50 text-gray-900;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .font-tech {
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  .font-tagline {
+    font-family: 'Crimson Pro', serif;
   }
 
   #root {

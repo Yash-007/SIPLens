@@ -117,11 +117,11 @@ const Calculator = () => {
       <div className="w-full h-full py-8 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-[1400px] mx-auto h-full">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              SIP Calculator
+            <h1 className="text-5xl md:text-7xl font-display font-extrabold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight">
+              SIPLens
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Plan your investment journey with our advanced SIP calculator and watch your money grow over time
+            <p className="text-2xl font-tagline text-gray-700 max-w-2xl mx-auto italic leading-relaxed">
+              See your SIP through the lens of reality
             </p>
           </div>
 
