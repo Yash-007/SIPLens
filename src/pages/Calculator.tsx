@@ -126,7 +126,7 @@ const Calculator = () => {
                 label="Monthly Investment"
                 value={inputs.monthlyAmount}
                 onChange={(value) => handleInputChange('monthlyAmount', value)}
-                min={500}
+                min={100}
                 max={1000000}
                 prefix="₹"
                 showCommas={true}
