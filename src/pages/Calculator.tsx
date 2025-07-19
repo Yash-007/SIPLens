@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Input from '../components/Input';
 import Chart from '../components/Chart';
+import Modal from '../components/Modal';
 
 interface CalculatorInputs {
   monthlyAmount: number;
@@ -25,6 +26,7 @@ interface CalculationResults {
 }
 
 const Calculator = () => {
+  const [isWhyModalOpen, setIsWhyModalOpen] = useState(false);
   const [inputs, setInputs] = useState<CalculatorInputs>({
     monthlyAmount: 5000,
     duration: 10,
@@ -112,6 +114,81 @@ const Calculator = () => {
     </div>
   );
 
+  const WhyContent = () => (
+    <div className="space-y-6 text-gray-600">
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-gray-800">Why We Built SIPLens 🎯</h3>
+        <p>
+        SIPLens brings clarity and realism to your SIP investments. Most SIP calculators only show basic returns, don't consider inflation and tax, factors that can greatly impact actual gains. SIPLens gives you the complete picture.        </p>
+      </section>
+
+      {/* <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-gray-800">Key Features 🌟</h3>
+        <ul className="space-y-3 pl-5">
+          <li className="flex items-start gap-2">
+            <span className="text-purple-600 mt-1.5">•</span>
+            <div>
+              <span className="font-medium text-gray-800">Real Returns After Tax:</span>
+              <span className="ml-1">See exactly how much you'll take home after accounting for capital gains tax</span>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-purple-600 mt-1.5">•</span>
+            <div>
+              <span className="font-medium text-gray-800">Inflation-Adjusted Value:</span>
+              <span className="ml-1">Understand the true purchasing power of your future wealth</span>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-purple-600 mt-1.5">•</span>
+            <div>
+              <span className="font-medium text-gray-800">Visual Growth Tracking:</span>
+              <span className="ml-1">Track your investment growth with our interactive chart</span>
+            </div>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-purple-600 mt-1.5">•</span>
+            <div>
+              <span className="font-medium text-gray-800">Yearly Breakdown:</span>
+              <span className="ml-1">Get detailed year-by-year analysis of your investment</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-gray-800">The Reality Lens 🔍</h3>
+        <p>
+          Investment returns often look impressive on paper, but what matters is the real value of your money. SIPLens helps you:
+        </p>
+        <ul className="space-y-2 pl-5">
+          <li className="flex items-center gap-2">
+            <span className="text-purple-600">•</span>
+            <span>Account for the impact of inflation on your returns</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="text-purple-600">•</span>
+            <span>Calculate post-tax earnings accurately</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="text-purple-600">•</span>
+            <span>Make informed decisions based on realistic projections</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="text-purple-600">•</span>
+            <span>Plan your long-term financial goals better</span>
+          </li>
+        </ul>
+      </section> */}
+
+      <div className="mt-8 p-4 bg-purple-50 rounded-xl">
+        <p className="text-purple-800 font-medium">
+          "The best investment you can make is in understanding your investments better."
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <div className="w-full h-full py-8 px-4 sm:px-6 lg:px-8">
@@ -120,9 +197,37 @@ const Calculator = () => {
             <h1 className="text-5xl md:text-7xl font-display font-extrabold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight">
               SIPLens
             </h1>
-            <p className="text-2xl font-tagline text-gray-700 max-w-2xl mx-auto italic leading-relaxed">
+            <p className="text-2xl font-tagline text-gray-700 max-w-2xl mx-auto italic leading-relaxed mb-8">
               See your SIP through the lens of reality
             </p>
+            
+            {/* Decorative Divider */}
+            <div className="flex items-center justify-center gap-4 max-w-2xl mx-auto mb-8">
+              <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent flex-1"></div>
+              <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+              <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent flex-1"></div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+              <button 
+                onClick={() => setIsWhyModalOpen(true)}
+                className="flex items-center gap-2 px-6 py-2.5 text-gray-700 bg-white hover:bg-gray-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 group"
+              >
+                <span className="text-2xl group-hover:animate-bounce">❓</span>
+                <span className="font-medium">Why SIPLens?</span>
+              </button>
+              
+              <button 
+                onClick={() => {
+                  window.open('https://github.com/Yash-007/SIPly', '_blank');
+                }}
+                className="flex items-center gap-2 px-6 py-2.5 text-gray-700 bg-white hover:bg-gray-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 group"
+              >
+                <span className="text-2xl group-hover:animate-spin">⭐</span>
+                <span className="font-medium">Star on GitHub</span>
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -226,6 +331,15 @@ const Calculator = () => {
               </div>
             </div>
           </div>
+
+          {/* Modal */}
+          <Modal
+            isOpen={isWhyModalOpen}
+            onClose={() => setIsWhyModalOpen(false)}
+            title="Why Choose SIPLens?"
+          >
+            <WhyContent />
+          </Modal>
         </div>
       </div>
     </div>
