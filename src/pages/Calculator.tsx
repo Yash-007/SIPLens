@@ -46,31 +46,36 @@ const Calculator = () => {
     const yearlyData = [];
     
     let totalInvestment = inputs.monthlyAmount * months;
-    let futureValue = 0;
 
-    for (let i = 1; i <= months; i++) {
-      futureValue = (futureValue + inputs.monthlyAmount) * (1 + monthlyRate);
+    // Calculate future value using SIP formula
+    const futureValue = (inputs.monthlyAmount * 
+      ((Math.pow(1 + monthlyRate, months) - 1) * (1 + monthlyRate)) / monthlyRate);
+
+    // Calculate yearly data points
+    for (let year = 1; year <= inputs.duration; year++) {
+      const monthsCompleted = year * 12;
+      const yearlyFutureValue = (inputs.monthlyAmount * 
+        ((Math.pow(1 + monthlyRate, monthsCompleted) - 1) * (1 + monthlyRate)) / monthlyRate);
       
-      if (i % 12 === 0) {
-        const year = i / 12;
-        const investment = inputs.monthlyAmount * i;
-        const inflationFactor = Math.pow(1 + inputs.inflationRate / 100, -year);
-        
-        yearlyData.push({
-          year,
-          investment,
-          totalValue: futureValue,
-          inflationAdjustedValue: futureValue * inflationFactor,
-        });
-      }
+      const investment = inputs.monthlyAmount * monthsCompleted;
+      const inflationFactor = Math.pow(1 + inputs.inflationRate / 100, -year);
+      
+      yearlyData.push({
+        year,
+        investment,
+        totalValue: yearlyFutureValue,
+        inflationAdjustedValue: yearlyFutureValue * inflationFactor,
+      });
     }
 
-    const inflationFactor = Math.pow(1 + inputs.inflationRate / 100, -inputs.duration);
-    const inflationAdjustedValue = futureValue * inflationFactor;
-
+    // Calculate tax on gains
     const gains = futureValue - totalInvestment;
     const taxAmount = (gains * inputs.taxRate) / 100;
     const postTaxValue = futureValue - taxAmount;
+
+    // Calculate inflation adjusted value on post-tax amount
+    const inflationFactor = Math.pow(1 + inputs.inflationRate / 100, -inputs.duration);
+    const inflationAdjustedValue = postTaxValue * inflationFactor;
 
     setResults({
       totalInvestment,
@@ -149,16 +154,7 @@ const Calculator = () => {
                 max={30}
                 suffix="%"
               />
-              
-              <Input
-                label="Inflation Rate"
-                value={inputs.inflationRate}
-                onChange={(value) => handleInputChange('inflationRate', value)}
-                min={0}
-                max={20}
-                suffix="%"
-              />
-              
+
               <Input
                 label="Tax Rate"
                 value={inputs.taxRate}
@@ -167,6 +163,15 @@ const Calculator = () => {
                 max={40}
                 suffix="%"
               />
+
+              <Input
+                label="Inflation Rate"
+                value={inputs.inflationRate}
+                onChange={(value) => handleInputChange('inflationRate', value)}
+                min={0}
+                max={20}
+                suffix="%"
+              />  
             </div>
           </div>
           
@@ -177,25 +182,25 @@ const Calculator = () => {
                 title="Total Investment"
                 value={results.totalInvestment}
                 subtitle="Amount you invested"
-                color="text-blue-600"
+                color="text-gray-700" 
               />
               <ResultCard
                 title="Expected Returns"
                 value={results.totalReturns}
                 subtitle="Before tax and inflation"
-                color="text-green-600"
+                color="text-emerald-600" 
               />
               <ResultCard
                 title="Post-tax Returns"
                 value={results.postTaxReturns}
                 subtitle="Final amount you'll get"
-                color="text-purple-600"
+                color="text-blue-600" 
               />
               <ResultCard
                 title="Inflation Adjusted Returns"
                 value={results.inflationAdjustedReturns}
-                subtitle="Real value of money"
-                color="text-yellow-600"
+                subtitle="Value of your returns in today’s money."
+                color="text-amber-600" 
               />
             </div>
 
