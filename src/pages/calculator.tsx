@@ -158,7 +158,6 @@ const Calculator = () => {
                 min={1}
                 max={30}
                 suffix="%"
-                  info="The expected annual return on your investment. Historical equity market returns have been between 12-15% per annum."
               />
 
               <Input
@@ -168,6 +167,8 @@ const Calculator = () => {
                 min={0}
                 max={40}
                 suffix="%"
+                  allowDecimal={true}
+                  info="Capital gains tax rate applied to your investment returns. For long-term equity investments, the typical tax rate is 12.5%."
               />
 
               <Input
