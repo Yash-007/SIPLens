@@ -20,6 +20,7 @@ interface CalculationResults {
     investment: number;
     totalValue: number;
     inflationAdjustedValue: number;
+    postTaxValue: number;
   }[];
 }
 
@@ -58,13 +59,17 @@ const Calculator = () => {
         ((Math.pow(1 + monthlyRate, monthsCompleted) - 1) * (1 + monthlyRate)) / monthlyRate);
       
       const investment = inputs.monthlyAmount * monthsCompleted;
+      const yearlyGains = yearlyFutureValue - investment;
+      const yearlyTaxAmount = (yearlyGains * inputs.taxRate) / 100;
+      const yearlyPostTaxValue = yearlyFutureValue - yearlyTaxAmount;
       const inflationFactor = Math.pow(1 + inputs.inflationRate / 100, -year);
       
       yearlyData.push({
         year,
         investment,
         totalValue: yearlyFutureValue,
-        inflationAdjustedValue: yearlyFutureValue * inflationFactor,
+        postTaxValue: yearlyPostTaxValue,
+        inflationAdjustedValue: yearlyPostTaxValue * inflationFactor,
       });
     }
 
@@ -143,7 +148,7 @@ const Calculator = () => {
                 onChange={(value) => handleInputChange('duration', value)}
                 min={1}
                 max={40}
-                suffix="Years"
+                suffix="Yr"
               />
               
               <Input
