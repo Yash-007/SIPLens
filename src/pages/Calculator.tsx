@@ -169,7 +169,7 @@ const Calculator = () => {
               />
             </div>
           </div>
-
+          
           {/* Results Section */}
           <div className="lg:col-span-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -186,16 +186,16 @@ const Calculator = () => {
                 color="text-green-600"
               />
               <ResultCard
-                title="Inflation Adjusted Returns"
-                value={results.inflationAdjustedReturns}
-                subtitle="Real value of money"
-                color="text-yellow-600"
-              />
-              <ResultCard
                 title="Post-tax Returns"
                 value={results.postTaxReturns}
                 subtitle="Final amount you'll get"
                 color="text-purple-600"
+              />
+              <ResultCard
+                title="Inflation Adjusted Returns"
+                value={results.inflationAdjustedReturns}
+                subtitle="Real value of money"
+                color="text-yellow-600"
               />
             </div>
 
