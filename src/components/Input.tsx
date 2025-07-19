@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 interface InputProps {
   label: string;
   value: number;
@@ -10,26 +12,39 @@ interface InputProps {
 }
 
 const Input = ({ label, value, onChange, min, max, prefix, suffix, showCommas = false }: InputProps) => {
+  const [inputValue, setInputValue] = useState(value.toString());
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Remove commas and any non-numeric characters
     const numericValue = e.target.value.replace(/,/g, '').replace(/[^0-9]/g, '');
     
-    // If empty or just backspaced to empty, set to minimum value
     if (!numericValue) {
+      setInputValue('');
       onChange(min);
       return;
     }
 
-    const newValue = Math.round(Number(numericValue));
+    const newValue = Number(numericValue);
     
-    // Only update if it's a valid number within range
     if (!isNaN(newValue)) {
       if (newValue > max) {
+        setInputValue(max.toString());
         onChange(max);
-      } else if (newValue < min) {
-        onChange(min);
       } else {
-        onChange(newValue);
+        setInputValue(numericValue);
+        onChange(newValue < min ? min : newValue);
+      }
+    }
+  };
+
+  const handleBlur = () => {
+    // Format the display value on blur
+    const currentValue = Number(inputValue.replace(/,/g, ''));
+    if (!isNaN(currentValue)) {
+      if (currentValue > max) {
+        setInputValue(formatValue(max).toString());
+      } else {
+        setInputValue(formatValue(value).toString());
       }
     }
   };
@@ -41,6 +56,7 @@ const Input = ({ label, value, onChange, min, max, prefix, suffix, showCommas = 
     return Math.round(val);
   };
 
+  const isValueBelowMin = Number(inputValue.replace(/,/g, '')) < min;
   const percentage = ((value - min) / (max - min)) * 100;
 
   return (
@@ -53,9 +69,13 @@ const Input = ({ label, value, onChange, min, max, prefix, suffix, showCommas = 
           {prefix && <span className="text-gray-500">{prefix}</span>}
           <input
             type={showCommas ? "text" : "number"}
-            value={formatValue(value)}
+            value={inputValue}
             onChange={handleInputChange}
-            className="w-24 px-2 py-1 text-right text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            onBlur={handleBlur}
+            className={`w-24 px-2 py-1 text-right text-sm border rounded-md focus:outline-none focus:ring-2 font-semibold
+              ${isValueBelowMin 
+                ? 'border-red-200 bg-red-50 focus:ring-red-500 focus:border-red-500' 
+                : 'focus:ring-blue-500 focus:border-blue-500'}`}
           />
           {suffix && <span className="text-gray-500">{suffix}</span>}
         </div>
@@ -96,8 +116,8 @@ const Input = ({ label, value, onChange, min, max, prefix, suffix, showCommas = 
       </div>
 
       <div className="flex justify-between text-xs text-gray-500">
-        <span>{showCommas ? Math.round(min).toLocaleString('en-IN') : Math.round(min)}{suffix}</span>
-        <span>{showCommas ? Math.round(max).toLocaleString('en-IN') : Math.round(max)}{suffix}</span>
+        <span>{showCommas ? Math.round(min).toLocaleString('en-IN') : Math.round(min)} <span className='ml-[1px]'>{suffix}</span></span>
+        <span>{showCommas ? Math.round(max).toLocaleString('en-IN') : Math.round(max)} <span className='ml-[1px]'>{suffix}</span></span>
       </div>
     </div>
   );
