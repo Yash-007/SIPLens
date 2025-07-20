@@ -6,7 +6,8 @@ import ResultCard from '../components/ResultCard';
 import WhyContent from '../components/WhyContent';
 import CreatorSection from '../components/CreatorSection';
 import Header from '../components/Header';
-import type { CalculatorInputs, CalculationResults } from '../types/interfaces';
+import TabSelector from '../components/TabSelector';
+import type { CalculatorInputs, CalculationResults, InvestmentType } from '../types/interfaces';
 import { calculateSIP, DEFAULT_CALCULATOR_INPUTS } from '../utils/calculator';
 
 const Calculator = () => {
@@ -21,7 +22,12 @@ const Calculator = () => {
   });
 
   useEffect(() => {
-    const newResults = calculateSIP(inputs);
+    const newResults = calculateSIP({
+      ...inputs,
+      // Set unused investment amount to 0 based on selected type
+      monthlyAmount: inputs.investmentType === 'lumpsum' ? 0 : inputs.monthlyAmount,
+      lumpsumAmount: inputs.investmentType === 'sip' ? 0 : inputs.lumpsumAmount,
+    });
     setResults(newResults);
   }, [inputs]);
 
@@ -29,6 +35,16 @@ const Calculator = () => {
     setInputs(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  const handleInvestmentTypeChange = (type: InvestmentType) => {
+    setInputs(prev => ({
+      ...prev,
+      investmentType: type,
+      // Always use default values when switching tabs
+      monthlyAmount: type === 'sip' ? DEFAULT_CALCULATOR_INPUTS.monthlyAmount : 0,
+      lumpsumAmount: type === 'lumpsum' ? DEFAULT_CALCULATOR_INPUTS.lumpsumAmount : 0,
     }));
   };
 
@@ -41,21 +57,40 @@ const Calculator = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Input Section */}
             <div className="lg:col-span-1">
-              <div className="bg-white backdrop-blur-lg bg-opacity-90 rounded-2xl shadow-xl p-4 sm:p-8 space-y-6 sticky top-8 border border-gray-100">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+              <div className="bg-white backdrop-blur-lg bg-opacity-90 rounded-2xl shadow-xl p-8 space-y-8 sticky top-8 border border-gray-100">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                   <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Investment Details</span>
                 </h2>
+
+                <TabSelector
+                  selected={inputs.investmentType}
+                  onChange={handleInvestmentTypeChange}
+                />
               
                 <div className="space-y-6">
-                  <Input
-                    label="Monthly Investment"
-                    value={inputs.monthlyAmount}
-                    onChange={(value) => handleInputChange('monthlyAmount', value)}
-                    min={100}
-                    max={1000000}
-                    prefix="₹"
-                    showCommas={true}
-                  />
+                  {inputs.investmentType === 'sip' ? (
+                    <Input
+                      label="Monthly SIP"
+                      value={inputs.monthlyAmount}
+                      onChange={(value) => handleInputChange('monthlyAmount', value)}
+                      min={500}
+                      max={1000000}
+                      prefix="₹"
+                      showCommas={true}
+                      info="Regular monthly investment amount"
+                    />
+                  ) : (
+                    <Input
+                      label="Total Investment"
+                      value={inputs.lumpsumAmount}
+                      onChange={(value) => handleInputChange('lumpsumAmount', value)}
+                      min={1000}
+                      max={10000000}
+                      prefix="₹"
+                      showCommas={true}
+                      info="One-time investment amount"
+                    />
+                  )}
                   
                   <Input
                     label="Investment Duration"

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface InputProps {
   label: string;
@@ -26,6 +26,11 @@ const Input = ({
   info
 }: InputProps) => {
   const [inputValue, setInputValue] = useState(value.toString());
+
+  // Sync internal state with external value
+  useEffect(() => {
+    setInputValue(formatValue(value).toString());
+  }, [value]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue: string = e.target.value;

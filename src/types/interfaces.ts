@@ -1,5 +1,9 @@
+export type InvestmentType = 'sip' | 'lumpsum';
+
 export interface CalculatorInputs {
+  investmentType: InvestmentType;
   monthlyAmount: number;
+  lumpsumAmount: number;
   duration: number;
   returnRate: number;
   inflationRate: number;
