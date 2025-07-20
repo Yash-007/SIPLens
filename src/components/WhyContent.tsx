@@ -4,7 +4,7 @@ const WhyContent = () => (
     <div className="space-y-4 text-gray-600">
       <section>
         <p className="text-lg leading-relaxed">
-          SIPLens brings clarity and realism to your SIP investments. Most SIP calculators only show basic returns, don't consider inflation and tax, factors that can greatly impact actual gains. SIPLens gives you the complete picture.
+          SIPLens brings clarity and realism to your SIP investments. All SIP calculators present in the market only show basic returns, don't consider inflation and tax, factors that can greatly impact actual gains. SIPLens gives you the complete picture.
         </p>
       </section>
 

@@ -41,61 +41,63 @@ const Calculator = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Input Section */}
             <div className="lg:col-span-1">
-              <div className="bg-white backdrop-blur-lg bg-opacity-90 rounded-2xl shadow-xl p-8 space-y-8 sticky top-8 border border-gray-100">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+              <div className="bg-white backdrop-blur-lg bg-opacity-90 rounded-2xl shadow-xl p-4 sm:p-8 space-y-6 sticky top-8 border border-gray-100">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                   <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Investment Details</span>
                 </h2>
               
-                <Input
-                  label="Monthly Investment"
-                  value={inputs.monthlyAmount}
-                  onChange={(value) => handleInputChange('monthlyAmount', value)}
-                  min={100}
-                  max={1000000}
-                  prefix="₹"
-                  showCommas={true}
-                />
-                
-                <Input
-                  label="Investment Duration"
-                  value={inputs.duration}
-                  onChange={(value) => handleInputChange('duration', value)}
-                  min={1}
-                  max={40}
-                  suffix="Yr"
-                />
-                
-                <Input
-                  label="Expected Return Rate"
-                  value={inputs.returnRate}
-                  onChange={(value) => handleInputChange('returnRate', value)}
-                  min={1}
-                  max={30}
-                  suffix="%"
-                  info="The expected annual return on your investment. Historical equity market returns have been between 12-15% per annum."
-                />
+                <div className="space-y-6">
+                  <Input
+                    label="Monthly Investment"
+                    value={inputs.monthlyAmount}
+                    onChange={(value) => handleInputChange('monthlyAmount', value)}
+                    min={100}
+                    max={1000000}
+                    prefix="₹"
+                    showCommas={true}
+                  />
+                  
+                  <Input
+                    label="Investment Duration"
+                    value={inputs.duration}
+                    onChange={(value) => handleInputChange('duration', value)}
+                    min={1}
+                    max={40}
+                    suffix="Yr"
+                  />
+                  
+                  <Input
+                    label="Expected Return Rate"
+                    value={inputs.returnRate}
+                    onChange={(value) => handleInputChange('returnRate', value)}
+                    min={1}
+                    max={30}
+                    suffix="%"
+                    info="The expected annual return on your investment. Historical equity market returns have been between 12-15% per annum."
+                  />
 
-                <Input
-                  label="Tax Rate"
-                  value={inputs.taxRate}
-                  onChange={(value) => handleInputChange('taxRate', value)}
-                  min={0}
-                  max={40}
-                  suffix="%"
-                  allowDecimal={true}
-                  info="Capital gains tax rate applied to your investment returns. For long-term equity investments, the typical tax rate is 12.5%."
-                />
+                  <Input
+                    label="Tax Rate"
+                    value={inputs.taxRate}
+                    onChange={(value) => handleInputChange('taxRate', value)}
+                    min={0}
+                    max={40}
+                    suffix="%"
+                    allowDecimal={true}
+                    info="Capital gains tax rate applied to your investment returns. For long-term equity investments, the typical tax rate is 12.5%."
+                  />
 
-                <Input
-                  label="Inflation Rate"
-                  value={inputs.inflationRate}
-                  onChange={(value) => handleInputChange('inflationRate', value)}
-                  min={0}
-                  max={20}
-                  suffix="%"
-                  allowDecimal={true}
-                  info="Annual inflation rate used to calculate the real value of your investment in today's money. Average inflation in India has been around 5%."
-                />  
+                  <Input
+                    label="Inflation Rate"
+                    value={inputs.inflationRate}
+                    onChange={(value) => handleInputChange('inflationRate', value)}
+                    min={0}
+                    max={20}
+                    suffix="%"
+                    allowDecimal={true}
+                    info="Annual inflation rate used to calculate the real value of your investment in today's money. Average inflation in India has been around 5%."
+                  />
+                </div>
               </div>
             </div>
             
@@ -113,18 +115,21 @@ const Calculator = () => {
                   value={results.totalReturns}
                   subtitle="Before tax and inflation"
                   color="text-emerald-600"
+                  info="Your total returns if the market performs as expected. This is before considering tax and inflation."
                 />
                 <ResultCard
                   title="Post-tax Returns"
                   value={results.postTaxReturns}
                   subtitle="Final amount you'll get"
                   color="text-blue-600"
+                  info="The amount you'll actually get after paying taxes on your investment gains."
                 />
                 <ResultCard
                   title="Inflation Adjusted Returns"
                   value={results.inflationAdjustedReturns}
                   subtitle="Value of your returns in today's money"
                   color="text-amber-600"
+                  info="What your money will be worth in today's terms. For example, ₹1 crore after 15 years might buy what ₹50 lakhs can buy today, due to rising prices."
                 />
               </div>
 

@@ -26,7 +26,6 @@ const Input = ({
   info
 }: InputProps) => {
   const [inputValue, setInputValue] = useState(value.toString());
-  const [showTooltip, setShowTooltip] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue: string = e.target.value;
@@ -128,29 +127,22 @@ const Input = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
         <div className="flex items-center gap-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 min-w-[100px] sm:min-w-fit">
             {label}
           </label>
           {info && (
-            <div className="relative">
-              <button
-                type="button"
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-                className="text-gray-400 hover:text-indigo-500 focus:outline-none transition-colors duration-200"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" />
+            <div className="group relative flex-shrink-0">
+              <div className="cursor-help text-gray-400 hover:text-gray-600">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-              </button>
-              {showTooltip && (
-                <div className="absolute z-10 w-64 px-4 py-3 -mt-1 text-sm leading-tight text-white transform -translate-x-1/2 -translate-y-full bg-gray-900 rounded-xl shadow-xl left-1/2">
-                  {info}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 translate-y-[8px] border-8 border-transparent border-t-gray-900" />
-                </div>
-              )}
+              </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 p-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-center">
+                {info}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1.5 border-4 border-transparent border-t-gray-800"></div>
+              </div>
             </div>
           )}
         </div>
@@ -161,7 +153,7 @@ const Input = ({
             value={inputValue}
             onChange={handleInputChange}
             onBlur={handleBlur}
-            className={`w-28 px-3 py-2 text-right text-sm border rounded-lg focus:outline-none focus:ring-2 font-semibold transition-all duration-200
+            className={`w-full sm:w-28 px-3 py-2 text-right text-sm border rounded-lg focus:outline-none focus:ring-2 font-semibold transition-all duration-200
               ${isValueBelowMin 
                 ? 'border-red-200 bg-red-50 focus:ring-red-500 focus:border-red-500' 
                 : 'border-gray-200 hover:border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500'}`}
