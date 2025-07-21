@@ -1,3 +1,4 @@
+import { incrementWhyModalOpenCount } from "../utils/firebase";
 
 const Header =  ({setIsWhyModalOpen}:{setIsWhyModalOpen: (value: boolean) => void}) => {
     return (
@@ -19,7 +20,10 @@ const Header =  ({setIsWhyModalOpen}:{setIsWhyModalOpen: (value: boolean) => voi
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
           <button 
-            onClick={() => setIsWhyModalOpen(true)}
+            onClick={() => {
+              incrementWhyModalOpenCount();
+              setIsWhyModalOpen(true);
+            }}
             className="flex items-center gap-2 px-6 py-2.5 text-gray-700 bg-white hover:bg-gray-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 group"
           >
             <span className="text-2xl group-hover:animate-bounce">❓</span>
