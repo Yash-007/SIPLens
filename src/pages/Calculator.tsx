@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import TabSelector from '../components/TabSelector';
 import type { CalculatorInputs, CalculationResults, InvestmentType } from '../types/interfaces';
 import { calculateSIP, DEFAULT_CALCULATOR_INPUTS } from '../utils/calculator';
+import { incrementTabClickedCount } from '../utils/firebase';
 
 const Calculator = () => {
   const [isWhyModalOpen, setIsWhyModalOpen] = useState(false);
@@ -39,6 +40,7 @@ const Calculator = () => {
   };
 
   const handleInvestmentTypeChange = (type: InvestmentType) => {
+    incrementTabClickedCount()
     setInputs(prev => ({
       ...prev,
       investmentType: type,
