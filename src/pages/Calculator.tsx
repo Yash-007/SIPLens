@@ -52,15 +52,15 @@ const Calculator = () => {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      <div className="w-full h-full py-6 px-3 sm:py-8 sm:px-6 lg:px-8">
+      <div className="w-full h-full py-8 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-[1400px] mx-auto h-full">
           <Header setIsWhyModalOpen={setIsWhyModalOpen} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Input Section */}
             <div className="lg:col-span-1">
-              <div className="bg-white backdrop-blur-lg bg-opacity-90 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-8 space-y-6 sm:space-y-8 sticky top-8 border border-gray-100">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 flex items-center">
+              <div className="bg-white backdrop-blur-lg bg-opacity-90 rounded-2xl shadow-xl p-8 space-y-8 sticky top-8 border border-gray-100">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                   <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Investment Details</span>
                 </h2>
               
@@ -69,7 +69,7 @@ const Calculator = () => {
                   onChange={handleInvestmentTypeChange}
                 />
               
-                <div className="space-y-6">
+                <div className="space-y-8">
                   {inputs.investmentType === 'sip' ? (
                     <Input
                       label="Monthly SIP"
@@ -139,8 +139,8 @@ const Calculator = () => {
             </div>
             
             {/* Results Section */}
-            <div className="lg:col-span-2 space-y-4 sm:space-y-8">
-              <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-6">
+            <div className="lg:col-span-2 space-y-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <ResultCard
                   title="Total Investment"
                   value={results.totalInvestment}
@@ -183,7 +183,7 @@ const Calculator = () => {
           </div>
 
           {/* Creator Section */}
-          <div className="mt-8 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-200">
+          <div className="mt-16 pt-8 border-t border-gray-200">
             <div className="text-center space-y-4">
               <CreatorSection />
             </div>
