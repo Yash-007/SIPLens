@@ -12,7 +12,7 @@ import { calculateSIP, DEFAULT_CALCULATOR_INPUTS } from '../utils/calculator';
 import { incrementTabClickedCount } from '../utils/firebase';
 
 const Calculator = () => {
-  const [isWhyModalOpen, setIsWhyModalOpen] = useState(false);
+  const [isWhyModalOpen, setIsWhyModalOpen] = useState<boolean>(false);
   const [inputs, setInputs] = useState<CalculatorInputs>(DEFAULT_CALCULATOR_INPUTS);
   const [results, setResults] = useState<CalculationResults>({
     totalInvestment: 0,

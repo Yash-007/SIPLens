@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
         onClick={onClose}
-      />
+      > 
       
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-6">
@@ -69,6 +69,7 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
             {children}
           </div>
         </div>
+      </div>
       </div>
     </Fragment>
   );
